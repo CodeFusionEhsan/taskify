@@ -5,14 +5,17 @@ import { PrismaClient } from '../../../../generated/prisma'
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(req: Request) {
+  const url = new URL(req.url);
+  const segments = url.pathname.split("/")
+  const listID = segments[segments.length - 1];
   const user = await auth();
   const userId = user.userId as string
 
   const data = await request.json();
   const updated = await prisma.prospect.updateMany({
     where: {
-      id: Number(params.id),
+      id: Number(listID),
       uploaded_by: userId,
     },
     data,
@@ -20,13 +23,16 @@ export async function PUT(request: Request, { params }: { params: { id: string }
   return NextResponse.json(updated);
 }
 
-export async function DELETE(_: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request) {
+  const url = new URL(req.url);
+  const segments = url.pathname.split("/")
+  const listID = segments[segments.length - 1];
   const user = await auth();
   const userId = user.userId as string
 
   const deleted = await prisma.prospect.deleteMany({
     where: {
-      id: Number(params.id),
+      id: Number(listID),
       uploaded_by: userId,
     },
   });
