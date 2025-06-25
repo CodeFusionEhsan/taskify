@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id          Int       @id @default(autoincrement())
+  title       String?
+  description String?
+  deadline    String?
+  revenue     String?
+  status      String?   @default("active")
+  for         String?
+  category    String?
+  comments    Comment[]
+  members     Member[]
+  tasks       Task[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  by        String?
+  text      String?
+  at        String?
+  project   Project  @relation(fields: [projectId], references: [id])
+  projectId Int
+}
+
+model Member {
+  id         Int      @id @default(autoincrement())
+  user_id    String?
+  user_email String?
+  role       String?
+  project    Project  @relation(fields: [projectId], references: [id])
+  projectId  Int
+}
+
+model Task {
+  id          Int      @id @default(autoincrement())
+  title       String?
+  description String?
+  deadline    String?
+  status      String?  @default("active")
+  project     Project  @relation(fields: [projectId], references: [id])
+  projectId   Int
+}
+
+model Invitation {
+  id          Int      @id @default(autoincrement())
+  by          String?
+  to          String?
+  projectId   Int
+}
+
+model Prospect {
+  id          Int     @id @default(autoincrement())
+  name        String
+  email       String  @unique
+  industry    String
+  uploaded_by String
+  website     String? // Optional
+  phone       String? // Optional
+}
+
+model File {
+  id         Int      @id @default(autoincrement())
+  key        String   @unique
+  url        String
+  projectId  Int
+  uploaded_by String
+  createdAt  DateTime @default(now())
+}
+
