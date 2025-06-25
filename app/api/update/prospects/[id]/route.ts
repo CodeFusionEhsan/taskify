@@ -12,7 +12,7 @@ export async function PUT(req: Request) {
   const user = await auth();
   const userId = user.userId as string
 
-  const data = await request.json();
+  const data = await req.json();
   const updated = await prisma.prospect.updateMany({
     where: {
       id: Number(listID),
