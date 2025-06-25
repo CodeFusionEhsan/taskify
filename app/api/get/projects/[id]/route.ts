@@ -4,8 +4,10 @@ import { PrismaClient } from '../../../../generated/prisma'
 
 const prisma = new PrismaClient().$extends(withAccelerate());
 
-export async function GET(req: Request, {params}:any) {
-    const {id} = await params
+export async function GET(req: Request) {
+    const url = new URL(req.url);
+    const segments = url.pathname.split("/")
+    const id = segments[segments.length - 1];
 
     console.log(id)
 
