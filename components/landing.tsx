@@ -55,7 +55,7 @@ export default function LandingPage() {
               <span className="px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors text-lg shadow">
                 <SignInButton />
               </span>
-              <span className="px-8 py-3 bg-white/70 text-indigo-600 font-medium rounded-lg border border-indigo-200 hover:bg-indigo-50 transition-colors text-lg shadow">
+              <span className="sm:px-8 sm:py-3 px-2 py-2 bg-white/70 text-indigo-600 font-medium rounded-lg border border-indigo-200 hover:bg-indigo-50 transition-colors text-lg shadow">
                 <SignUpButton />
               </span>
             </div>
